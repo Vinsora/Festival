@@ -122,3 +122,33 @@ def clean_price(price):
     
     price_cleaned = float(price.replace("€", "").replace(",", ""))
     return price_cleaned
+
+def beginning_converter(date_str):
+    """
+    This function converts dates presented as a range into the date 
+    of event beginning
+    """
+     # Define a regular expression pattern to match date range format
+    pattern = r'\d{2}/\d{2}/\d{4} - \d{2}/\d{2}/\d{4}'
+    
+    # Check if the input string matches the date range pattern
+    if re.match(pattern, date_str):
+        # Split the date range string and return the first date
+        return date_str.split(' - ')[0]
+    else:
+        # Return the input string unchanged
+        return date_str
+
+
+def convert_to_datetime(column):
+    """
+    Convert elements in a column to datetime format.
+    If the element is already in datetime format, it is left unchanged.
+    """
+    # Convert to strings
+    # column = column.convert_dtypes(convert_string=True)
+
+    # Convert individual dates to datetime
+    column = pd.to_datetime(column, errors='coerce')
+
+    return column

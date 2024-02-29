@@ -152,3 +152,29 @@ def convert_to_datetime(column):
     column = pd.to_datetime(column, errors='coerce')
 
     return column
+
+def merge_capital_words(string):
+    """
+    Merge single capital letters in a string
+    It can be used to form country-code for instance
+    """
+    words = string.split()
+    merged_words = [words[0]]
+    
+    for i in range(1, len(words)):
+        current_word = words[i]
+        previous_word = words[i - 1]
+        
+        # Check if both current and previous words have length 1 and are capital letters
+        if len(current_word) == 1 and len(previous_word) == 1 and current_word.isupper() and previous_word.isupper():
+            merged_words[-1] += current_word  # Merge current word with previous word
+        else:
+            merged_words.append(current_word)  # Add current word as is
+    
+    return ' '.join(merged_words)
+
+def split_and_newline(genres_string):
+    # Split the string by ","
+    genres_list = genres_string.split(',')
+    # Join the elements of the list with newline characters
+    return '\n'.join(genres_list)

@@ -1,6 +1,6 @@
 # European music festival dataset
 
-![Alt text](https://image.geo.de/30046346/t/EH/v3/w960/r0/-/island-festivals-gross-02-jpg--19736-.JPG)
+![Festival](festival.jpg)
 
 This project consists of several parts:
 1. **Scraping data** from https://www.festival-alarm.com/us using BeautifulSoup. After some research, this website seemed to be the only one providing a decent overview of European music festivals from 2014 to 2025. The tables from the different pages corresponding to each year were merged to form a single Pandas Dataframe. From a first analysis it´s clear that the dataset has not been curated and presents many missing values especially when counting the number of visitors and the price of tickets(ca. 30% each). Furthermore many well known festivals have not been reported and the dataframe shows to be accurate only for countries like Germany and UK, while for other countries like Italy it shows too few entries (only 17 in total, which is obviously not accurate). This Dataset could be improved integrating information from different sources, like Wikipedia for instance.

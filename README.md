@@ -9,3 +9,18 @@ This project consists of several parts:
 4. **Geocoding Location** using Nominatim. Thisn allows to create two new columns 'Latitude' and 'Longitude' with coordinates that can be used to display the entries on a map
 5. **Data Analysis** some consideration and visualization on the data
 6. **Streamlit App**: an interactive visualization of the mapping applying different filters
+
+## Requirements
+Python version: `3.11.8`
+```
+pip install -r requirements.txt
+```
+
+## Streamlit app
+The streamlit app allows to visualize subsets of the dataset. Select the properties for a specific subset and display it on the map.  
+
+Run the streamlit app from the console with:
+
+```
+streamlit run app.py
+``` 

@@ -6,3 +6,4 @@ streamlit
 requests
 bs4
 geopy
+folium

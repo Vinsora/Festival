@@ -142,20 +142,39 @@ html_table = festivals_tot.style.set_table_styles([{
 # Display the HTML table
 st.write(html_table, unsafe_allow_html=True)
 
-# Create a map of Europe
+import folium
+from folium.plugins import HeatMap
+
+# Count the number of festivals per country
+festivals_per_country = festivals_tot['Country'].value_counts()
+
+# Create a base map of Europe
 m = folium.Map(location=[51.1657, 10.4515], zoom_start=5)
 
-# Initialize geocoder
-geolocator = Nominatim(user_agent="app")
+# Add a heatmap layer with festival counts per country
+heat_data = []
+for country, count in festivals_per_country.items():
+    # Check if Latitude and Longitude columns exist
+    if "Latitude" in festivals_tot.columns and "Longitude" in festivals_tot.columns:
+        # Check if the country entry is a list of coordinates
+        if isinstance(country, list):
+            # Iterate over the coordinates and add non-NaN values to the heatmap data
+            for coord in country:
+                if not any(map(lambda x: pd.isnull(x), coord)):  # Check for NaN values
+                    heat_data.append([coord[0], coord[1], count])  # Append latitude, longitude, count
+        else:
+            # Retrieve latitude and longitude corresponding to the country
+            lat = festivals_tot.loc[festivals_tot['Country'] == country, 'Latitude'].iloc[0]
+            lon = festivals_tot.loc[festivals_tot['Country'] == country, 'Longitude'].iloc[0]
+            # Check if latitude and longitude are not NaN before adding to heatmap data
+            if not (pd.isnull(lat) or pd.isnull(lon)):
+                heat_data.append([lat, lon, count])  # Append latitude, longitude, count
+    else:
+        # Add country name as the tooltip for the heatmap
+        heat_data.append([country, count])
 
-# Add markers for festivals
-for _, row in festivals_tot.iterrows():
-    # Geocode location
-    location = geolocator.geocode(row['Venue'])
-    if location:
-        latitude = location.latitude
-        longitude = location.longitude
-        folium.Marker(location=[latitude, longitude], popup=row['Name']).add_to(m)
+# Add heatmap layer to the map
+HeatMap(heat_data, min_opacity=0.5, max_zoom=18, radius=15, blur=10).add_to(m)
 
 # Display the map
 st_folium(m, width=1500, height=500)

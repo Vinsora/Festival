@@ -1,10 +1,8 @@
 import streamlit as st
 import pandas as pd
 import folium
+from folium.plugins import HeatMap
 from streamlit_folium import st_folium
-from geopy.geocoders import Nominatim
-
-import streamlit as st
 
 # Define the HTML code
 html_code = """
@@ -141,9 +139,6 @@ html_table = festivals_tot.style.set_table_styles([{
 
 # Display the HTML table
 st.write(html_table, unsafe_allow_html=True)
-
-import folium
-from folium.plugins import HeatMap
 
 # Count the number of festivals per country
 festivals_per_country = festivals_tot['Country'].value_counts()
